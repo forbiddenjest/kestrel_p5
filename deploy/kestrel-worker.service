@@ -1,0 +1,27 @@
+[Unit]
+Description=Kestrel background jobs
+After=network-online.target kestrel.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=kestrel
+Group=kestrel
+WorkingDirectory=/opt/kestrel
+EnvironmentFile=/etc/kestrel/kestrel.env
+ExecStart=/opt/kestrel/.venv/bin/python -m app.worker_service
+Restart=on-failure
+RestartSec=5
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/kestrel
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

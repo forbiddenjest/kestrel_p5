@@ -1,0 +1,13 @@
+{
+  "name": "kestrel-static-assets",
+  "private": true,
+  "version": "1.1.0",
+  "scripts": {
+    "build:css": "tailwindcss -i ./app/static/src.css -o ./app/static/app.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17",
+    "postcss": "8.5.3",
+    "autoprefixer": "10.4.21"
+  }
+}

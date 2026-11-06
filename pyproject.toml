@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools==75.8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kestrel-control-plane"
+version = "1.1.0"
+description = "A minimal control panel for self-hosted KVM infrastructure"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi==0.115.12",
+  "uvicorn[standard]==0.34.2",
+  "SQLAlchemy==2.0.40",
+  "alembic==1.15.2",
+  "Jinja2==3.1.6",
+  "python-multipart==0.0.20",
+  "pydantic-settings==2.9.1",
+  "argon2-cffi==23.1.0",
+  "cryptography==44.0.2",
+  "asyncssh==2.21.0",
+  "libvirt-python==11.2.0",
+  "passlib==1.7.4",
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.alembic]
+script_location = migrations
+prepend_sys_path = .
+
+[tool.setuptools.package-data]
+app = ["templates/*.html", "templates/administrator/*.html", "static/*", "static/vendor/**/*"]
