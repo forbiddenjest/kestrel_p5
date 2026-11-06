@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token|default('') }}">
+  <title>{% block title %}Kestrel{% endblock %} · Kestrel</title>
+  <link rel="icon" href="/static/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/static/app.css">
+  <link rel="stylesheet" href="/static/vendor/xterm/xterm.css">
+  <script defer src="/static/vendor/htmx.min.js"></script>
+  <script defer src="/static/vendor/alpine.min.js"></script>
+  {% block head %}{% endblock %}
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="{% if user.role == 'admin' %}/administrator/overview{% else %}/machines{% endif %}"><img src="/static/kestrelwordmark.png" alt="Kestrel"></a>
+    <div class="nav-group"><span class="nav-label">WORKSPACE</span>
+      {% if user.role == 'admin' %}
+      <a class="nav-link {% if page == 'overview' %}active{% endif %}" href="/administrator/overview"><span class="nav-icon">◫</span>Overview</a>
+      <a class="nav-link {% if page == 'machines' %}active{% endif %}" href="/administrator/machines"><span class="nav-icon">▣</span>Machines</a>
+      <a class="nav-link {% if page == 'users' %}active{% endif %}" href="/administrator/users"><span class="nav-icon">◉</span>Users</a>
+      <a class="nav-link {% if page == 'clusters' %}active{% endif %}" href="/administrator/clusters"><span class="nav-icon">⌘</span>Clusters</a>
+      <a class="nav-link {% if page == 'networking' %}active{% endif %}" href="/administrator/networking"><span class="nav-icon">⌁</span>Networking</a>
+      <a class="nav-link {% if page == 'images' %}active{% endif %}" href="/administrator/images"><span class="nav-icon">▧</span>Images</a>
+      <a class="nav-link {% if page == 'logs' %}active{% endif %}" href="/administrator/logs"><span class="nav-icon">≡</span>Activity logs</a>
+      {% else %}
+      <a class="nav-link {% if view == 'list' %}active{% endif %}" href="/machines"><span class="nav-icon">▣</span>My machines</a>
+      {% endif %}
+    </div>
+    <div class="nav-footer"><a class="nav-link" href="/account"><span class="nav-icon">◎</span>Account</a><form method="post" action="/auth/logout"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="nav-link nav-button" type="submit"><span class="nav-icon">↗</span>Sign out</button></form></div>
+  </aside>
+  <main class="main-panel">
+    <header class="topbar"><div class="breadcrumb"><span class="breadcrumb-root">{{ 'Administrator' if user.role == 'admin' else 'Workspace' }}</span>{% block breadcrumb %}{% endblock %}</div><div class="top-user"><span class="online-dot"></span><span>{{ user.email }}</span><a href="/account" class="avatar">{{ user.email[0]|upper }}</a></div></header>
+    <div class="page-wrap">{% if flash %}<div class="flash flash-info" role="status">{{ flash }}</div>{% endif %}{% block content %}{% endblock %}</div>
+  </main>
+</div>
+<script defer src="/static/app.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

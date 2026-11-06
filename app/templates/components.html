@@ -1,0 +1,8 @@
+{% macro status_badge(state) -%}<span class="status-badge status-{{ state|lower|replace(' ', '-') }}"><span></span>{{ state|title }}</span>{%- endmacro %}
+{% macro csrf_field(token) -%}<input type="hidden" name="csrf_token" value="{{ token }}">{%- endmacro %}
+{% macro metric(label, value, unit='') -%}<div class="metric-cell"><div class="metric-label">{{ label }}</div><div class="metric-value">{{ value }}<span>{{ unit }}</span></div></div>{%- endmacro %}
+{% macro empty_state(title, message) -%}<div class="empty-state"><div class="empty-mark">⌘</div><h3>{{ title }}</h3><p>{{ message }}</p></div>{%- endmacro %}
+
+{% macro confirm_modal(title, message, cancel_label='Cancel', confirm_label='Confirm') -%}<dialog class="confirm-dialog"><div class="confirm-dialog-body"><h2>{{ title }}</h2><p>{{ message }}</p><div class="action-row"><button class="button button-outline" type="button" data-dialog-cancel>{{ cancel_label }}</button><button class="button button-danger-outline" type="button" data-dialog-confirm>{{ confirm_label }}</button></div></div></dialog>{%- endmacro %}
+{% macro table_head(columns) -%}<thead><tr>{% for column in columns %}<th scope="col">{{ column }}</th>{% endfor %}</tr></thead>{%- endmacro %}
+{% macro chart_empty(message='No samples yet') -%}<div class="chart-placeholder" role="status"><span>{{ message }}</span></div>{%- endmacro %}
